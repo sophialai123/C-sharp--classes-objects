@@ -320,8 +320,35 @@ The first constructor provides values for both fields, and the second gives a de
 Forest f = new Forest(800, "Hungary");
 Forest f2 = new Forest(400);
 ```
+Notice how we’ve written duplicate code for our second constructor: `this.Area = area`;. Later on, if we need to adjust the constructor, we’ll need to find every copy of the code and make the exact same change. That means more work and chances for errors.
+
+
+We have two options to resolve this. In either case we will remove the duplicated code:
+
+1. Use default arguments. This is useful if you are using C# 4.0 or later (which is fairly common) and the only difference between constructors is default values.
+
+```
+public Forest(int area, string country = "Unknown")
+{
+  this.Area = area;
+  this.Country = country;
+}
+```
+
+2. Use : `this()`, which refers to another constructor in the same class. This is useful for old C# programs (before 4.0) and when your second constructor has additional functionality. This example has an additional functionality of announcing the default value.
+
+Remember that `this.Area` refers to the current instance of a class. When we use `this()` like a method, it refers to another constructor in the current class. In this example, the second constructor calls `this()` — which refers to the first `Forest()` constructor — AND it prints information to the console.
+
 ---
-
-
+## Review
+- Define a class
+- Instantiate an object using new
+- Define fields, the pieces of data for each class
+- Define properties, the spokespeople for each field
+- Define automatic properties, the shorthand for making properties
+- Define methods, the actions a class can take
+- Define constructors, the special methods called when a class is instantiated
+- Overload constructors and reuse code with this
+- Control access to class members using public and private
 
 

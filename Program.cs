@@ -23,6 +23,10 @@ namespace BasicClasses
             // get() is called and Prints Unknown
             //use the property (Biome) instead of the field (biome)
             Console.WriteLine(f.Biome);
+
+            //call the second constructor
+            Forest f2 = new Forest("Rendlesham");
+            Console.WriteLine(f.Biome);
         }
     }
 }

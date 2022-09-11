@@ -28,6 +28,15 @@ namespace BasicClasses
             Age = 0;
         }
 
+        //Overloading Constructors
+        //Define a second constructor for the Forest class:
+        public Forest(string name) :
+            this(name, "Unknown")
+        {
+            Console
+                .WriteLine("Name property not specified. Value defaulted to 'Unknown'.");
+        }
+
         //Define a basic Trees property for the trees field.
         //getter and setter without validation
         //Automatic Properties
