@@ -6,9 +6,10 @@ namespace BasicClasses
     {
         static void Main(string[] args)
         {
-            //make a new instance of the Forest class
-            //and store the result in a variable f.
-            Forest f = new Forest();
+            /* Call the new constructor 
+            create a Forest object with the 
+            name “Congo” and biome “Tropical”. */
+            Forest f = new Forest("Congo", "Tropical");
 
             //Set values to those four fields.
             f.Name = "Congo";
@@ -19,11 +20,8 @@ namespace BasicClasses
             //print the name Proprety to the console.
             Console.WriteLine(f.Name);
 
-            f.Biome = "Tropical"; // Prints Tropical
-
-            f.Biome = "Desert";
-
             // get() is called and Prints Unknown
+            //use the property (Biome) instead of the field (biome)
             Console.WriteLine(f.Biome);
         }
     }

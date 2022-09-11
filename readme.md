@@ -143,3 +143,185 @@ public string Size
 { get; set; }
 ```
 In this form, you don’t have to write out the `get()` and `set()` methods, and you don’t have to define a `size` field at all! A hidden field is defined in the background for us. All we have to worry about is the `Size` property.
+
+---
+## Public vs. Private
+
+At this point we have built fields to associate data with a class and properties to control the getting and setting of each field. As it is now, any code outside of the `Forest` class can “sneak past” our properties by directly accessing the field:
+
+```
+f.Age = 32; // using property
+f.age = -1; // using field
+```
+
+The second line avoids the property’s validation by directly accessing the field. We can fix this by using the access modifiers `public` and `private`:
+
+- `public` — a public member can be accessed by any class
+
+- `private `— a private member can only be accessed by code in the same class
+
+
+For simplicity, we’ve been adding `public` to every member so far. That allows code to access the members from the `Main()` method, which doesn’t belong to the `Forest` class. When we switch a field from `public` to `private` it will no longer be accessible from `Main()`, although code inside the `Forest` class — like properties — can still access it.
+
+Access modifiers can be applied to all members of a class, including fields, properties, and the rest of the members covered in this lesson.
+
+
+`public` and `private` are necessary to encapsulate our classes. Think of it like “defensive coding”: you are protecting the inner mechanisms of a class with `private` so that other code can’t break your class. You only expose what you want to be `public`.
+
+
+For example, since a class’ properties define how other programs get and set its fields, it’s good practice to make fields `private` and properties `public`.
+
+C# encourages encapsulation by defaulting class members to `private` and classes to `public`.
+
+---
+## Get-Only Properties
+Previously we used properties for field validation. By applying `public` and `private`, we can also use properties to control access to fields.
+
+Recall our imaginary Area property. Say we want programs to get the value of the property, but we don’t want programs to set the value of the property. Then we either:
+
+1. don’t include a set() method, or
+2. make the set() method private.
+
+This shows approach 1 — don’t include a `set()`:
+```
+public string Area
+{
+  get { return area; }
+}
+```
+
+We can still get Area, but if we try to set Area we get an error:
+`error CS0200: Property or indexer 'Forest.Area' cannot be assigned to (it is read-only)`
+
+
+#### this is a better way
+This shows approach 2 — make `set() private`:
+
+
+```
+public int Area
+{
+  get { return area; }
+  private set { area = value; }  
+}
+```
+We can still get Area, but if we try to set Area in Main() we get an error:
+`error CS0272: The property or indexer 'Forest.Area' cannot be used in this context because the set accessor is inaccessible`
+
+Notice that in approach 1 we get an error for setting `Area` anywhere. In approach 2 we only get an error for setting Area outside of the `Forest `class. Generally we prefer **approach 2** because it allows other `Forest `methods to set `Area`.
+
+---
+## Methods
+The third type of member in classes is methods.most methods belong to a class (even the ones you have written!), so methods are also used to define how an instance of a class behaves. You can think of them as the “actions” or function that an object can perform.
+
+This code defines a method IncreaseArea() that changes the value of the Area property:
+
+```
+class Forest {
+  public int Area
+  { /* property body omitted */  }
+  public int IncreaseArea(int growth)
+  {
+    Area = Area + growth;
+    return Area;
+  }
+}
+```
+
+You would call the method like so:
+
+```
+Forest f = new Forest();
+int result = f.IncreaseArea(2);
+Console.WriteLine(result); // Prints 2
+```
+---
+## Constructors
+
+In each of the examples so far, we created a new `Forest` object and set the property values one by one. It would be nice if we could write a method that’s run every time an object is created to set those values at once.
+
+C# has a special type of method, called a **constructor**, that does just that. It looks like a method, but there is no return type listed and the method name is the name of its enclosing class:
+
+```
+class Forest 
+{
+  public Forest()
+  {
+  }
+}
+```
+We can add code in the constructor to set values to fields:
+
+```
+class Forest
+{
+  public int Area;
+ 
+  public Forest(int area)
+  {
+    Area = area;
+  }
+}
+```
+
+This constructor method is used whenever we instantiate an object with the new keyword:
+
+```
+ // Constructor is called here
+Forest f = new Forest(400);
+```
+
+If no constructor is defined in a class, one is automatically created for us. It takes no parameters, so it’s called a parameterless constructor. That’s why we have been able to instantiate new objects without errors:
+`Forest f = new Forest();`
+
+---
+## this
+The parameter for the constructor `area` looks a lot like the old field `area` and the new property Area. It’s good to be explicit when writing code so that there is no room for misinterpretation. We can refer to the current instance of a class with the `this` keyword.
+```
+class Forest
+{
+  public int Area
+  { /* property omitted */ }
+ 
+  public Forest(int area)
+  {
+    this.Area = area;
+  }
+```
+
+`this.Area = area `means “when this constructor is used to make a new instance, use the argument `area` to set the value of this new instance’s `Area `field”.
+
+We would call it the same way:
+`Forest f = new Forest(400);`
+
+f.Area now equals 400.
+
+---
+## Overloading Constructors
+Just like other methods, constructors can be overloaded. For example, we may want to define an additional constructor that takes one argument:
+
+```
+public Forest(int area, string country)
+{ 
+  this.Area = area;
+  this.Country = country;
+ }
+ 
+public Forest(int area)
+{ 
+  this.Area = area;
+  this.Country = "Unknown";
+}
+```
+
+The first constructor provides values for both fields, and the second gives a default value when the country is not provided. Now you can create a `Forest` instance in two ways:
+
+```
+Forest f = new Forest(800, "Hungary");
+Forest f2 = new Forest(400);
+```
+---
+
+
+
+
