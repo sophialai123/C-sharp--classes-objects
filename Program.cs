@@ -11,13 +11,20 @@ namespace BasicClasses
             Forest f = new Forest();
 
             //Set values to those four fields.
-            f.name = "Congo";
-            f.trees = 0;
+            f.Name = "Congo";
+            f.Trees = 0;
             f.age = 0;
-            f.biome = "Tropical";
+            f.Biome = "Tropical";
 
-            //print the name field to the console.
-            Console.WriteLine(f.name);
+            //print the name Proprety to the console.
+            Console.WriteLine(f.Name);
+
+            f.Biome = "Tropical"; // Prints Tropical
+
+            f.Biome = "Desert";
+
+            // get() is called and Prints Unknown
+            Console.WriteLine(f.Biome);
         }
     }
 }

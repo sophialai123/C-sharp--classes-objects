@@ -66,3 +66,80 @@ Forest f2 = new Forest();
 f2.name = "Congo";
 Console.WriteLine(f2.name); // Prints "Congo"
 ```
+---
+## Properties
+
+Properties are another type of class member. Each property is like a spokesperson for a field: it controls the access (getting and setting) to that field. We can use this to validate values before they are set to a field. A property is made up of two methods:
+
+ - a `get()` method, or getter: called when the property is accessed
+
+ - a `set()` method, or setter: called when the property is assigned a value
+
+ This shows a basic `Area` property without validation:
+
+ ```
+ public int area;
+public int Area
+{
+  get { return area; }
+  set { area = value; }
+}
+ ```
+
+ The `Area` property is associated with the `area` field. It’s common to name a property with the title-cased version of its field’s name, e.g. `age` and `Age`, `name` and `Name`.
+
+The `set()` method above uses the keyword `value`, which represents the value we assign to the property. Back in Program.cs, when we access the Area property, the `get()` and `set()` methods are called:
+
+```
+Forest f = new Forest();
+f.Area = -1; // set() is called
+Console.WriteLine(f.Area); // get() is called; prints -1
+```
+
+In the above example, when `set()` is called, the value variable is -1, so `area `is set to `-1`.
+
+Here’s the same property with validation in the `set()` method. If we try to set `Area` to a negative value, it will be changed to `0`.
+
+```
+public int Area
+{
+  get { return area; }
+  set 
+  { 
+    if (value < 0) { area = 0; }
+    else { area = value; }
+  }
+}
+```
+
+In Program.cs:
+
+```
+Forest f = new Forest();
+// set() is called
+f.Area = -1; 
+// get() is called; prints 0
+Console.WriteLine(f.Area);
+```
+---
+
+## Automatic Properties
+
+It might have felt tedious to write the same getter and setter for the `Name `and `Trees` properties. C# has a solution for that! The basic getter and setter pattern is so common that there is a short-hand called an **automatic property**. As a reminder, here’s the basic pattern for an imaginary size property:
+
+```
+public string size;
+public string Size
+{
+  get { return size; }
+  set { size = value; }
+}
+```
+
+This pattern can be written as an automatic property:
+
+```
+public string Size
+{ get; set; }
+```
+In this form, you don’t have to write out the `get()` and `set()` methods, and you don’t have to define a `size` field at all! A hidden field is defined in the background for us. All we have to worry about is the `Size` property.
